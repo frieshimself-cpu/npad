@@ -1,0 +1,32 @@
+/**
+ * Site-wide configuration.
+ * The brand name is intentionally a placeholder — swap it once you pick one.
+ */
+export const BRAND = {
+  name: "YOURNAME",
+  tagline: "Coins for the people who inspire you. Fees for the people on them.",
+  xHandle: "yourhandle",
+};
+
+/** Fee model, expressed in basis points and shares of the fee. */
+export const FEES = {
+  /** Fee taken on every buy and sell on the bonding curve (100 bps = 1%). */
+  tradeFeeBps: 100,
+  /** How the collected fee is split. Must sum to 1. */
+  split: {
+    person: 0.6, // the person featured on the coin
+    launcher: 0.2, // whoever deployed the coin
+    protocol: 0.2, // platform treasury
+  },
+};
+
+/** Pump.fun-style constant-product bonding curve with virtual reserves. */
+export const CURVE = {
+  totalSupply: 1_000_000_000,
+  virtualSol: 30,
+  virtualTokens: 1_073_000_000,
+  /** SOL that must be raised before the coin graduates to a DEX. */
+  graduationSol: 85,
+};
+
+export const SOL_USD = 148.2; // display-only reference price for mock data
