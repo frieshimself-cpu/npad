@@ -1,9 +1,8 @@
 /**
  * Site-wide configuration.
- * The brand name is intentionally a placeholder — swap it once you pick one.
  */
 export const BRAND = {
-  name: "YOURNAME",
+  name: "NIGGAPAD",
   tagline: "Coins for the people who inspire you. Fees for the people on them.",
   xHandle: "yourhandle",
 };

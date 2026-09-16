@@ -1,4 +1,4 @@
-# Launchpad frontend
+# NIGGAPAD
 
 Frontend for a pump.fun-style memecoin launchpad on Solana with one twist: the person a coin is
 about gets the biggest share of every trade fee, paid out in SOL once they verify their X account.
@@ -47,7 +47,7 @@ the Vercel project settings and read them with `import.meta.env.VITE_*`.
 
 ## Things to swap before going live
 
-- **Brand name.** `BRAND.name` in `src/config.ts` is the placeholder `YOURNAME`. It's used everywhere from the nav to the footer.
+- **Brand.** `BRAND` in `src/config.ts` holds the name and X handle. The name is used everywhere from the nav to the footer; the X handle is still a placeholder.
 - **Fee model.** `FEES` in `src/config.ts` sets the trade fee (1%) and the split (60% person / 20% launcher / 20% protocol). The whole UI reads from it.
 - **Curve parameters.** `CURVE` in `src/config.ts` mirrors pump.fun's virtual reserves and 85 SOL graduation. `src/lib/curve.ts` has the quote math.
 - **Wallet.** `src/context/WalletContext.tsx` is a mock. Replace it with `@solana/wallet-adapter-react`; the `WalletButton` and `WalletModal` components are shaped to make that a drop-in.
