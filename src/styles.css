@@ -370,3 +370,23 @@ p { margin: 0; }
   .hero-actions .btn { white-space: normal; text-align: center; width: 100%; }
   .brand { font-size: 15px; }
 }
+
+/* ---------- Contract address bar ---------- */
+.ca-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(242,182,50,.3);
+  background: var(--gold-soft); max-width: 100%;
+}
+.ca-label { font-size: 12px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.ca-addr {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px;
+  border: 1px solid var(--border-strong); background: var(--bg); font-size: 13px; font-weight: 500;
+  word-break: break-all; text-align: left; min-width: 0; max-width: 100%;
+}
+.ca-addr:hover { border-color: var(--gold); }
+.ca-addr svg { flex: 0 0 auto; color: var(--text-3); }
+.ca-links { display: flex; gap: 6px; margin-left: auto; }
+.ca-bar.compact { background: var(--bg-elev); border-color: var(--border); }
+.ca-bar.compact .ca-label { color: var(--text-3); }
+.nav-x { padding: 8px 10px; }
+@media (max-width: 480px) { .ca-links { margin-left: 0; width: 100%; } .ca-links .btn { flex: 1; } }

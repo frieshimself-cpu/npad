@@ -5,6 +5,7 @@ import { BRAND } from "../config";
 import { coins, siteStats } from "../data/coins";
 import { CoinCard } from "../components/CoinCard";
 import { Ticker } from "../components/Ticker";
+import { CABar } from "../components/CABar";
 import { FeeSplit } from "../components/FeeSplit";
 import { fmtCompact, fmtSol, fmtUsd } from "../lib/format";
 import { graduationProgress } from "../lib/curve";
@@ -54,6 +55,10 @@ export function Home() {
           <div className="hero-actions">
             <Link to="/launch" className="btn btn-primary btn-lg"><Rocket size={17} /> Launch a coin</Link>
             <Link to="/claim" className="btn btn-lg">Is there a coin about you? Claim your fees <ArrowRight size={16} /></Link>
+          </div>
+
+          <div style={{ marginTop: 22 }}>
+            <CABar />
           </div>
 
           <div className="stats-strip">
