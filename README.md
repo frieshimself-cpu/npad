@@ -15,6 +15,26 @@ npm run build      # typecheck + production build into dist/
 npm run preview    # serve the production build
 ```
 
+## Deploy to Vercel
+
+The repo is ready to deploy as-is. `vercel.json` sets the Vite framework preset, the build
+command, and an SPA rewrite so deep links like `/coin/amara` resolve on refresh.
+
+**From the dashboard:** import the GitHub repo at https://vercel.com/new, keep the detected
+settings (Framework: Vite, build `npm run build`, output `dist`), and click Deploy. Every push to
+the connected branch redeploys automatically.
+
+**From the CLI:**
+
+```bash
+npm i -g vercel
+vercel          # preview deployment
+vercel --prod   # production deployment
+```
+
+No environment variables are required yet. Once the app talks to an RPC or indexer, add them in
+the Vercel project settings and read them with `import.meta.env.VITE_*`.
+
 ## Pages
 
 | Route | What it does |
