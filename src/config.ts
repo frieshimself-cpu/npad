@@ -6,7 +6,7 @@ export const BRAND = {
   tagline: "Coins for the people who inspire you. Fees for the people on them.",
   xHandle: "NiggaPadOnChain",
   /** Official platform token contract address (pump.fun mint). */
-  tokenCA: "Fd4VNH535sjYwwS7rRx7qTqtxfbEWhWQ64RCHj8Mpump",
+  tokenCA: "J2gkFaMeL2J8UzCm6mx2xXxmvCsFmjQDpi1QkWXhpump",
 };
 
 export const LINKS = {
