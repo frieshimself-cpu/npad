@@ -5,6 +5,8 @@ export const BRAND = {
   name: "NIGGAPAD",
   tagline: "Coins for the people who inspire you. Fees for the people on them.",
   xHandle: "NiggaPadOnChain",
+  /** Official platform token contract address. */
+  tokenCA: "8CRJJYDY9Jk39F6PGL9mJ28aFYwfSnPMCGZNcfQRpump",
 };
 
 export const CHAIN = {
@@ -17,6 +19,8 @@ export const CHAIN = {
 export const LINKS = {
   x: `https://x.com/${BRAND.xHandle}`,
   pons: "https://pons.xyz",
+  pumpFun: `https://pump.fun/coin/${BRAND.tokenCA}`,
+  solscan: `https://solscan.io/token/${BRAND.tokenCA}`,
 };
 
 /** Fee model, expressed in basis points and shares of the fee. */
