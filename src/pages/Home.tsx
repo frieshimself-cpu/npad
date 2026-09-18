@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Rocket, Search, Sparkles } from "lucide-react";
-import { BRAND } from "../config";
+import { BRAND, CHAIN, CURVE } from "../config";
 import { coins, siteStats } from "../data/coins";
 import { CoinCard } from "../components/CoinCard";
 import { Ticker } from "../components/Ticker";
-import { CABar } from "../components/CABar";
 import { FeeSplit } from "../components/FeeSplit";
-import { fmtCompact, fmtSol, fmtUsd } from "../lib/format";
+import { fmtCompact, fmtEth, fmtUsd } from "../lib/format";
 import { graduationProgress } from "../lib/curve";
 
 type Sort = "trending" | "new" | "graduating" | "earners";
@@ -34,10 +33,10 @@ export function Home() {
     );
     out = [...out];
     switch (sort) {
-      case "trending": out.sort((a, b) => b.volume24hSol - a.volume24hSol); break;
+      case "trending": out.sort((a, b) => b.volume24hEth - a.volume24hEth); break;
       case "new": out.sort((a, b) => b.createdAt - a.createdAt); break;
-      case "graduating": out.sort((a, b) => graduationProgress(b.solRaised) - graduationProgress(a.solRaised)); break;
-      case "earners": out.sort((a, b) => b.personFeesSol - a.personFeesSol); break;
+      case "graduating": out.sort((a, b) => graduationProgress(b.ethRaised) - graduationProgress(a.ethRaised)); break;
+      case "earners": out.sort((a, b) => b.personFeesEth - a.personFeesEth); break;
     }
     return out;
   }, [q, sort]);
@@ -46,7 +45,7 @@ export function Home() {
     <>
       <section className="hero">
         <div className="container">
-          <div className="hero-eyebrow"><Sparkles size={14} /> Launchpad on Solana</div>
+          <div className="hero-eyebrow"><Sparkles size={14} /> On Robinhood Chain · powered by {CHAIN.launchpad}</div>
           <h1>Put your people on. <em>Pay them every trade.</em></h1>
           <p className="lead">
             {BRAND.name} is a launchpad for coins that celebrate Black creators, athletes, small-business owners, and everyday legends.
@@ -57,15 +56,11 @@ export function Home() {
             <Link to="/claim" className="btn btn-lg">Is there a coin about you? Claim your fees <ArrowRight size={16} /></Link>
           </div>
 
-          <div style={{ marginTop: 22 }}>
-            <CABar />
-          </div>
-
           <div className="stats-strip">
             <div className="card stat">
               <div className="label">Paid to people</div>
-              <div className="value gold">{fmtSol(siteStats.paidToPeopleSol, 1)}</div>
-              <div className="sub">{fmtUsd(siteStats.paidToPeopleSol)} in fees, lifetime</div>
+              <div className="value accent">{fmtEth(siteStats.paidToPeopleEth, 1)}</div>
+              <div className="sub">{fmtUsd(siteStats.paidToPeopleEth)} in fees, lifetime</div>
             </div>
             <div className="card stat">
               <div className="label">Coins launched</div>
@@ -74,12 +69,12 @@ export function Home() {
             </div>
             <div className="card stat">
               <div className="label">24h volume</div>
-              <div className="value">{fmtSol(siteStats.volume24hSol, 0)}</div>
-              <div className="sub">{fmtUsd(siteStats.volume24hSol)}</div>
+              <div className="value">{fmtEth(siteStats.volume24hEth, 0)}</div>
+              <div className="sub">{fmtUsd(siteStats.volume24hEth)}</div>
             </div>
             <div className="card stat">
               <div className="label">Fee to the person</div>
-              <div className="value green">60%</div>
+              <div className="value accent">60%</div>
               <div className="sub">of every 1% trade fee</div>
             </div>
           </div>
@@ -108,7 +103,7 @@ export function Home() {
             </div>
           </div>
           {list.length === 0 ? (
-            <div className="card empty">Nothing matches "{q}". <Link to="/launch" className="gold">Be the first to launch it.</Link></div>
+            <div className="card empty">Nothing matches "{q}". <Link to="/launch" className="accent">Be the first to launch it.</Link></div>
           ) : (
             <div className="grid">
               {list.map((c) => <CoinCard key={c.id} coin={c} />)}
@@ -149,7 +144,7 @@ export function Home() {
             <div className="card step">
               <div className="num">2</div>
               <h3>Trade on the curve</h3>
-              <p>The coin starts on a bonding curve. Buys push the price up, sells push it down. At 85 SOL it graduates to a DEX with locked liquidity.</p>
+              <p>The coin launches through {CHAIN.launchpad} on a bonding curve. Buys push the price up, sells push it down. At {CURVE.graduationEth} ETH it graduates to a DEX with locked liquidity.</p>
             </div>
             <div className="card step">
               <div className="num">3</div>

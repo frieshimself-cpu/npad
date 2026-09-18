@@ -5,14 +5,18 @@ export const BRAND = {
   name: "NIGGAPAD",
   tagline: "Coins for the people who inspire you. Fees for the people on them.",
   xHandle: "NiggaPadOnChain",
-  /** Official platform token contract address (pump.fun mint). */
-  tokenCA: "7QtPipzupvyhyK9u4wWrccGJenCrDjGNNbszWyiKpump",
+};
+
+export const CHAIN = {
+  name: "Robinhood Chain",
+  /** Native gas/quote asset on Robinhood Chain (an Ethereum L2). */
+  currency: "ETH",
+  launchpad: "Pons",
 };
 
 export const LINKS = {
   x: `https://x.com/${BRAND.xHandle}`,
-  pumpFun: `https://pump.fun/coin/${BRAND.tokenCA}`,
-  solscan: `https://solscan.io/token/${BRAND.tokenCA}`,
+  pons: "https://pons.xyz",
 };
 
 /** Fee model, expressed in basis points and shares of the fee. */
@@ -27,13 +31,13 @@ export const FEES = {
   },
 };
 
-/** Pump.fun-style constant-product bonding curve with virtual reserves. */
+/** Pons-style constant-product bonding curve with virtual reserves, denominated in ETH. */
 export const CURVE = {
   totalSupply: 1_000_000_000,
-  virtualSol: 30,
+  virtualEth: 6,
   virtualTokens: 1_073_000_000,
-  /** SOL that must be raised before the coin graduates to a DEX. */
-  graduationSol: 85,
+  /** ETH that must be raised before the coin graduates to a DEX. */
+  graduationEth: 17,
 };
 
-export const SOL_USD = 148.2; // display-only reference price for mock data
+export const ETH_USD = 3_920; // display-only reference price for mock data

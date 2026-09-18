@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { SOL_USD } from "../config";
+import { ETH_USD } from "../config";
 
 /** Lightweight SVG area chart. Swap for a candlestick lib once live data exists. */
 export function PriceChart({ data }: { data: number[] }) {
@@ -20,7 +20,7 @@ export function PriceChart({ data }: { data: number[] }) {
   const up = data[data.length - 1] >= data[0];
   const color = up ? "var(--green)" : "var(--red)";
   const ticks = [max, min + range * 0.5, min];
-  const mcap = (v: number) => `$${((v * 1_000_000_000 * SOL_USD) / 1000).toFixed(1)}K`;
+  const mcap = (v: number) => `$${((v * 1_000_000_000 * ETH_USD) / 1000).toFixed(1)}K`;
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img" aria-label="Price chart">

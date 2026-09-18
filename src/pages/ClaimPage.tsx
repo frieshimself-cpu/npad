@@ -7,7 +7,7 @@ import { WalletButton } from "../components/WalletButton";
 import { XIcon } from "../components/XIcon";
 import { useWallet } from "../context/WalletContext";
 import { useToast } from "../context/ToastContext";
-import { fmtSol, fmtUsd, normalizeHandle, shortAddr } from "../lib/format";
+import { fmtEth, fmtUsd, normalizeHandle, shortAddr } from "../lib/format";
 import { FEES } from "../config";
 
 export function ClaimPage() {
@@ -21,8 +21,8 @@ export function ClaimPage() {
   const [claimed, setClaimed] = useState(false);
 
   const coins = handle ? coinsForHandle(handle) : [];
-  const total = coins.reduce((a, c) => a + c.personFeesSol, 0);
-  const unclaimed = coins.reduce((a, c) => a + (c.personFeesSol - c.personFeesClaimedSol), 0);
+  const total = coins.reduce((a, c) => a + c.personFeesEth, 0);
+  const unclaimed = coins.reduce((a, c) => a + (c.personFeesEth - c.personFeesClaimedEth), 0);
   const alreadyClaimed = coins.some((c) => c.person.claimed);
 
   const lookup = (e: FormEvent) => {
@@ -54,7 +54,7 @@ export function ClaimPage() {
 
       {handle && coins.length === 0 && (
         <div className="card empty">
-          No coins found for <b>@{handle}</b> yet. <Link to="/launch" className="gold">Launch one</Link> or ask someone who backs you to.
+          No coins found for <b>@{handle}</b> yet. <Link to="/launch" className="accent">Launch one</Link> or ask someone who backs you to.
           <p className="dim" style={{ fontSize: 12, marginTop: 8 }}>Try <span className="kbd">amarapaints</span>, <span className="kbd">niabellmusic</span>, or <span className="kbd">keishaeats</span> in the demo.</p>
         </div>
       )}
@@ -73,8 +73,8 @@ export function ClaimPage() {
               {(alreadyClaimed || claimed) && <span className="badge badge-green"><BadgeCheck size={12} /> Verified</span>}
             </div>
             <div className="stats-strip" style={{ marginTop: 18 }}>
-              <div className="stat" style={{ padding: 0 }}><div className="label">Earned for you</div><div className="value gold">{fmtSol(total, 3)}</div><div className="sub">{fmtUsd(total)}</div></div>
-              <div className="stat" style={{ padding: 0 }}><div className="label">Ready to claim</div><div className="value">{fmtSol(claimed ? 0 : unclaimed, 3)}</div><div className="sub">{coins.length} coin{coins.length === 1 ? "" : "s"}</div></div>
+              <div className="stat" style={{ padding: 0 }}><div className="label">Earned for you</div><div className="value accent">{fmtEth(total, 3)}</div><div className="sub">{fmtUsd(total)}</div></div>
+              <div className="stat" style={{ padding: 0 }}><div className="label">Ready to claim</div><div className="value">{fmtEth(claimed ? 0 : unclaimed, 3)}</div><div className="sub">{coins.length} coin{coins.length === 1 ? "" : "s"}</div></div>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export function ClaimPage() {
               <div className="n">{step > 1 ? "✓" : "1"}</div>
               <div>
                 <h3>Connect the wallet you want paid</h3>
-                <p>Any Solana wallet. This is where the SOL lands, now and for every future trade.</p>
+                <p>Any wallet. This is where the ETH lands, now and for every future trade.</p>
                 {wallet.address && <p className="mono" style={{ color: "var(--text)" }}>{shortAddr(wallet.address)}</p>}
               </div>
               <div className="action"><WalletButton /></div>
@@ -105,11 +105,11 @@ export function ClaimPage() {
             <div className={`card claim-step ${step > 3 ? "done" : step === 3 ? "current" : ""}`}>
               <div className="n">{step > 3 ? "✓" : "3"}</div>
               <div>
-                <h3>Claim {fmtSol(unclaimed, 3)}</h3>
+                <h3>Claim {fmtEth(unclaimed, 3)}</h3>
                 <p>One signature. After this, your share of every future trade streams to your wallet automatically.</p>
               </div>
               <div className="action">
-                <button className="btn btn-primary" disabled={step !== 3} onClick={() => { setClaimed(true); toast(`${fmtSol(unclaimed, 3)} sent to your wallet`); }}>
+                <button className="btn btn-primary" disabled={step !== 3} onClick={() => { setClaimed(true); toast(`${fmtEth(unclaimed, 3)} sent to your wallet`); }}>
                   <Coins size={15} /> {claimed ? "Claimed" : "Claim"}
                 </button>
               </div>
@@ -119,7 +119,7 @@ export function ClaimPage() {
           {claimed && (
             <div className="notice green">
               <Wallet size={16} />
-              <span>Done. {fmtSol(unclaimed, 3)} is in {wallet.address ? shortAddr(wallet.address) : "your wallet"}. Future fees from {coins.map((c) => `$${c.ticker}`).join(", ")} pay out automatically.</span>
+              <span>Done. {fmtEth(unclaimed, 3)} is in {wallet.address ? shortAddr(wallet.address) : "your wallet"}. Future fees from {coins.map((c) => `$${c.ticker}`).join(", ")} pay out automatically.</span>
             </div>
           )}
 
@@ -130,9 +130,9 @@ export function ClaimPage() {
                 {coins.map((c) => (
                   <tr key={c.id}>
                     <td><Link to={`/coin/${c.id}`} style={{ fontWeight: 600 }}>{c.name} <span className="mono dim">${c.ticker}</span></Link></td>
-                    <td className="num">{fmtSol(c.personFeesSol, 3)}</td>
-                    <td className="num">{fmtSol(claimed ? c.personFeesSol : c.personFeesClaimedSol, 3)}</td>
-                    <td className="num gold">{fmtSol(claimed ? 0 : c.personFeesSol - c.personFeesClaimedSol, 3)}</td>
+                    <td className="num">{fmtEth(c.personFeesEth, 3)}</td>
+                    <td className="num">{fmtEth(claimed ? c.personFeesEth : c.personFeesClaimedEth, 3)}</td>
+                    <td className="num accent">{fmtEth(claimed ? 0 : c.personFeesEth - c.personFeesClaimedEth, 3)}</td>
                   </tr>
                 ))}
               </tbody>

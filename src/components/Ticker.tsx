@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { recentTrades, getCoin } from "../data/coins";
-import { fmtSol, shortAddr } from "../lib/format";
+import { fmtEth, shortAddr } from "../lib/format";
 
 export function Ticker() {
   const trades = recentTrades();
@@ -16,7 +16,7 @@ export function Ticker() {
               <span className={`side ${t.side}`}>{t.side.toUpperCase()}</span>
               <span className="mono dim">{shortAddr(t.wallet)}</span>
               <span className="muted">{t.side === "buy" ? "bought" : "sold"}</span>
-              <span className="mono">{fmtSol(t.sol)}</span>
+              <span className="mono">{fmtEth(t.eth)}</span>
               <span className="muted">of</span>
               <span style={{ fontWeight: 600 }}>${c.ticker}</span>
             </Link>

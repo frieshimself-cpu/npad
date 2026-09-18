@@ -12,7 +12,7 @@ export type Trade = {
   id: string;
   coinId: string;
   side: "buy" | "sell";
-  sol: number;
+  eth: number;
   wallet: string;
   at: number;
 };
@@ -25,14 +25,14 @@ export type Coin = {
   person: Person;
   launcher: string;
   createdAt: number;
-  /** Real SOL currently in the curve. */
-  solRaised: number;
+  /** Real ETH currently in the curve. */
+  ethRaised: number;
   holders: number;
-  volume24hSol: number;
+  volume24hEth: number;
   /** Lifetime fees accrued to the featured person. */
-  personFeesSol: number;
-  personFeesClaimedSol: number;
+  personFeesEth: number;
+  personFeesClaimedEth: number;
   replies: number;
-  /** Price history (SOL per token), oldest first. */
+  /** Price history (ETH per token), oldest first. */
   history: number[];
 };

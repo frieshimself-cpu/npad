@@ -1,7 +1,7 @@
 import { hashString } from "../lib/seed";
 
 const PALETTES = [
-  ["#f2b632", "#e2891a"],
+  ["#00c805", "#059e0a"],
   ["#2fbf71", "#1a8a52"],
   ["#5b9cf6", "#3b6fd6"],
   ["#e5484d", "#b3262b"],

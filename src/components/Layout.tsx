@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Menu, Rocket, X } from "lucide-react";
-import { BRAND, LINKS } from "../config";
-import { CABar } from "./CABar";
+import { BRAND, CHAIN, LINKS } from "../config";
 import { WalletButton, WalletModal } from "./WalletButton";
 import { XIcon } from "./XIcon";
 
@@ -56,12 +55,9 @@ export function Layout() {
       </main>
 
       <footer className="footer">
-        <div className="container" style={{ marginBottom: 18 }}>
-          <CABar compact />
-        </div>
         <div className="container footer-inner">
           <div>
-            <b style={{ color: "var(--text)" }}>{BRAND.name}</b> · Built on Solana. Not financial advice. Memecoins are volatile and can go to zero.
+            <b style={{ color: "var(--text)" }}>{BRAND.name}</b> · Built on {CHAIN.name} via <a href={LINKS.pons} target="_blank" rel="noreferrer" style={{ color: "var(--text)" }}>{CHAIN.launchpad}</a>. Not financial advice. Memecoins are volatile and can go to zero.
           </div>
           <div className="footer-links">
             <Link to="/how-it-works">Fees</Link>

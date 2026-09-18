@@ -21,8 +21,8 @@ export function hashString(s: string): number {
 
 export function fakeAddress(seed: string): string {
   const rnd = mulberry32(hashString(seed));
-  const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-  let out = "";
-  for (let i = 0; i < 44; i++) out += alphabet[Math.floor(rnd() * alphabet.length)];
+  const alphabet = "0123456789abcdef";
+  let out = "0x";
+  for (let i = 0; i < 40; i++) out += alphabet[Math.floor(rnd() * alphabet.length)];
   return out;
 }

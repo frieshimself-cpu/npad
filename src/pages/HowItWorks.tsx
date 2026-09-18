@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { FeeSplit } from "../components/FeeSplit";
-import { BRAND, CURVE, FEES } from "../config";
+import { BRAND, CHAIN, CURVE, FEES } from "../config";
 import { fmtCompact } from "../lib/format";
 
 const FAQ: { q: string; a: string }[] = [
@@ -15,11 +15,11 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How is the fee actually collected?",
-    a: `Every buy and sell on the bonding curve takes a flat ${FEES.tradeFeeBps / 100}% in SOL. The program splits it on the spot: ${Math.round(FEES.split.person * 100)}% to the person's escrow (or straight to their wallet once claimed), ${Math.round(FEES.split.launcher * 100)}% to the launcher, ${Math.round(FEES.split.protocol * 100)}% to the protocol. Nothing is held by a person or a multisig.`,
+    a: `Every buy and sell on the bonding curve takes a flat ${FEES.tradeFeeBps / 100}% in ETH. The contract splits it on the spot: ${Math.round(FEES.split.person * 100)}% to the person's escrow (or straight to their wallet once claimed), ${Math.round(FEES.split.launcher * 100)}% to the launcher, ${Math.round(FEES.split.protocol * 100)}% to the protocol. Nothing is held by a person or a multisig.`,
   },
   {
     q: "What happens at graduation?",
-    a: `When ${CURVE.graduationSol} SOL has been raised on the curve, the liquidity moves to a DEX pool and the LP tokens are burned. After graduation the person keeps earning from the DEX pool's fee share.`,
+    a: `When ${CURVE.graduationEth} ETH has been raised on the curve, the liquidity moves to a DEX pool and the LP tokens are burned. After graduation the person keeps earning from the DEX pool's fee share.`,
   },
   {
     q: "Is there a presale or team allocation?",
@@ -40,7 +40,7 @@ export function HowItWorks() {
     <div className="container" style={{ paddingBottom: 40, maxWidth: 860 }}>
       <div className="page-head">
         <h1>How it works</h1>
-        <p>{BRAND.name} is a bonding-curve launchpad on Solana with one twist: the person a coin is about gets the biggest cut of the fees.</p>
+        <p>{BRAND.name} is a bonding-curve launchpad on {CHAIN.name}, built on {CHAIN.launchpad}, with one twist: the person a coin is about gets the biggest cut of the fees.</p>
       </div>
 
       <div className="stack">
@@ -54,12 +54,12 @@ export function HowItWorks() {
           <div className="card step">
             <div className="num">1</div>
             <h3>Launch</h3>
-            <p>Enter a person's name and X handle, a coin name, ticker, and a short why. Pay network fees, and it's on the curve with {fmtCompact(CURVE.totalSupply)} supply.</p>
+            <p>Enter a person's name and X handle, a coin name, ticker, and a short why. Pay a few cents in gas, and {CHAIN.launchpad} puts it on the curve with {fmtCompact(CURVE.totalSupply)} supply.</p>
           </div>
           <div className="card step">
             <div className="num">2</div>
             <h3>Trade</h3>
-            <p>Constant-product curve with {CURVE.virtualSol} SOL virtual reserves. Price climbs as SOL comes in. At {CURVE.graduationSol} SOL the coin graduates to a DEX and liquidity is burned.</p>
+            <p>Constant-product curve with {CURVE.virtualEth} ETH virtual reserves. Price climbs as ETH comes in. At {CURVE.graduationEth} ETH the coin graduates to a DEX and liquidity is burned.</p>
           </div>
           <div className="card step">
             <div className="num">3</div>

@@ -7,8 +7,8 @@ import { PriceChart } from "../components/PriceChart";
 import { TradePanel } from "../components/TradePanel";
 import { XIcon } from "../components/XIcon";
 import { useToast } from "../context/ToastContext";
-import { graduationProgress, marketCapSol, spotPrice, tokensSold } from "../lib/curve";
-import { fmtCompact, fmtSol, fmtUsd, shortAddr, timeAgo } from "../lib/format";
+import { graduationProgress, marketCapEth, spotPrice, tokensSold } from "../lib/curve";
+import { fmtCompact, fmtEth, fmtUsd, shortAddr, timeAgo } from "../lib/format";
 import { fakeAddress, hashString, mulberry32 } from "../lib/seed";
 import { CURVE } from "../config";
 
@@ -22,18 +22,18 @@ export function CoinPage() {
     return (
       <div className="container">
         <div className="card empty" style={{ marginTop: 40 }}>
-          That coin doesn't exist. <Link to="/" className="gold">Back to the board</Link>
+          That coin doesn't exist. <Link to="/" className="accent">Back to the board</Link>
         </div>
       </div>
     );
   }
 
-  const price = spotPrice(coin.solRaised);
-  const mcap = marketCapSol(coin.solRaised);
-  const prog = graduationProgress(coin.solRaised);
+  const price = spotPrice(coin.ethRaised);
+  const mcap = marketCapEth(coin.ethRaised);
+  const prog = graduationProgress(coin.ethRaised);
   const change = coin.history[coin.history.length - 1] / coin.history[0] - 1;
-  const unclaimed = coin.personFeesSol - coin.personFeesClaimedSol;
-  const mint = fakeAddress(`mint-${coin.id}`);
+  const unclaimed = coin.personFeesEth - coin.personFeesClaimedEth;
+  const contract = fakeAddress(`contract-${coin.id}`);
 
   const copy = (s: string) => { navigator.clipboard?.writeText(s); toast("Copied to clipboard"); };
 
@@ -53,7 +53,7 @@ export function CoinPage() {
                   <span>{coin.person.role} · {coin.person.city}</span>
                   {coin.person.claimed
                     ? <span className="badge badge-green"><BadgeCheck size={12} /> Claimed by {coin.person.xHandle}</span>
-                    : <span className="badge badge-gold"><Lock size={12} /> Unclaimed · fees in escrow</span>}
+                    : <span className="badge badge-accent"><Lock size={12} /> Unclaimed · fees in escrow</span>}
                   <span className="dim"><Clock size={12} style={{ verticalAlign: -2 }} /> {timeAgo(coin.createdAt)}</span>
                 </div>
                 <p className="muted" style={{ marginTop: 12, fontSize: 14 }}>{coin.description}</p>
@@ -66,8 +66,8 @@ export function CoinPage() {
                 <div className="big">{fmtUsd(mcap)}</div>
                 <div style={{ fontSize: 13, color: change >= 0 ? "var(--green)" : "var(--red)", fontFamily: "var(--mono)" }}>{change >= 0 ? "+" : ""}{(change * 100).toFixed(1)}% since launch</div>
               </div>
-              <div><div className="kv">Price</div><div className="v">{price.toExponential(3)} SOL</div></div>
-              <div><div className="kv">24h vol</div><div className="v">{fmtSol(coin.volume24hSol, 1)}</div></div>
+              <div><div className="kv">Price</div><div className="v">{price.toExponential(3)} ETH</div></div>
+              <div><div className="kv">24h vol</div><div className="v">{fmtEth(coin.volume24hEth, 1)}</div></div>
               <div><div className="kv">Holders</div><div className="v">{fmtCompact(coin.holders)}</div></div>
             </div>
           </div>
@@ -79,17 +79,17 @@ export function CoinPage() {
           <div className="card card-pad">
             <div className="row-between">
               <span className="panel-title">Bonding curve</span>
-              <span className="mono muted" style={{ fontSize: 13 }}>{fmtSol(coin.solRaised, 1)} / {CURVE.graduationSol} SOL</span>
+              <span className="mono muted" style={{ fontSize: 13 }}>{fmtEth(coin.ethRaised, 1)} / {CURVE.graduationEth} ETH</span>
             </div>
             <div className="progress" style={{ marginTop: 10, height: 10 }}><i style={{ width: `${prog * 100}%` }} /></div>
             <p className="muted" style={{ fontSize: 13, marginTop: 10 }}>
               {prog >= 1
                 ? "This coin graduated. Liquidity is on a DEX and permanently locked."
-                : `${Math.round(prog * 100)}% of the way there. ${fmtCompact(tokensSold(coin.solRaised))} tokens sold of ${fmtCompact(CURVE.totalSupply)}. When the curve fills, liquidity moves to a DEX and gets burned.`}
+                : `${Math.round(prog * 100)}% of the way there. ${fmtCompact(tokensSold(coin.ethRaised))} tokens sold of ${fmtCompact(CURVE.totalSupply)}. When the curve fills, liquidity moves to a DEX and gets burned.`}
             </p>
             <div className="row-between" style={{ marginTop: 12, fontSize: 12 }}>
-              <span className="dim">Mint</span>
-              <button className="btn btn-ghost btn-sm mono" onClick={() => copy(mint)}>{shortAddr(mint)} <Copy size={12} /></button>
+              <span className="dim">Contract</span>
+              <button className="btn btn-ghost btn-sm mono" onClick={() => copy(contract)}>{shortAddr(contract)} <Copy size={12} /></button>
             </div>
           </div>
 
@@ -110,10 +110,10 @@ export function CoinPage() {
 
           <div className="card fees-panel">
             <span className="panel-title">Earned for {coin.person.xHandle}</span>
-            <div className="big gold">{fmtSol(coin.personFeesSol, 3)}</div>
-            <div className="row"><span>Claimed to wallet</span><b>{fmtSol(coin.personFeesClaimedSol, 3)}</b></div>
-            <div className="row"><span>{coin.person.claimed ? "Pending payout" : "Waiting in escrow"}</span><b>{fmtSol(unclaimed, 3)}</b></div>
-            <div className="row"><span>USD value</span><b>{fmtUsd(coin.personFeesSol)}</b></div>
+            <div className="big accent">{fmtEth(coin.personFeesEth, 3)}</div>
+            <div className="row"><span>Claimed to wallet</span><b>{fmtEth(coin.personFeesClaimedEth, 3)}</b></div>
+            <div className="row"><span>{coin.person.claimed ? "Pending payout" : "Waiting in escrow"}</span><b>{fmtEth(unclaimed, 3)}</b></div>
+            <div className="row"><span>USD value</span><b>{fmtUsd(coin.personFeesEth)}</b></div>
             {coin.person.claimed && coin.person.wallet ? (
               <div className="row"><span>Payout wallet</span><b>{shortAddr(coin.person.wallet)}</b></div>
             ) : (
@@ -168,19 +168,19 @@ function Comments({ seed, handle }: { seed: string; handle: string }) {
 function Trades({ seed, ticker }: { seed: string; ticker: string }) {
   const rnd = mulberry32(hashString(`t-${seed}`));
   const rows = Array.from({ length: 10 }, (_, i) => {
-    const sol = 0.05 + rnd() * 2.5;
-    return { who: fakeAddress(`t${seed}${i}`), side: rnd() > 0.4 ? "buy" : "sell", sol, tokens: sol * (400_000 + rnd() * 300_000), at: Date.now() - (i + 1) * (40_000 + rnd() * 600_000) };
+    const eth = 0.01 + rnd() * 0.5;
+    return { who: fakeAddress(`t${seed}${i}`), side: rnd() > 0.4 ? "buy" : "sell", eth, tokens: eth * (2_000_000 + rnd() * 1_500_000), at: Date.now() - (i + 1) * (40_000 + rnd() * 600_000) };
   });
   return (
     <div style={{ overflowX: "auto" }}>
       <table className="table">
-        <thead><tr><th>Wallet</th><th>Side</th><th className="num">SOL</th><th className="num">${ticker}</th><th className="num">When</th></tr></thead>
+        <thead><tr><th>Wallet</th><th>Side</th><th className="num">ETH</th><th className="num">${ticker}</th><th className="num">When</th></tr></thead>
         <tbody>
           {rows.map((r, i) => (
             <tr key={i}>
               <td className="mono">{shortAddr(r.who)}</td>
               <td><span className={`badge ${r.side === "buy" ? "badge-green" : "badge-red"}`}>{r.side}</span></td>
-              <td className="num">{r.sol.toFixed(3)}</td>
+              <td className="num">{r.eth.toFixed(3)}</td>
               <td className="num">{fmtCompact(r.tokens)}</td>
               <td className="num dim">{timeAgo(r.at)}</td>
             </tr>

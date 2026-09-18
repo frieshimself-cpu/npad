@@ -21,9 +21,10 @@ export function WalletButton({ block = false }: { block?: boolean }) {
 }
 
 const WALLETS = [
-  { name: "Phantom", color: "#ab9ff2" },
-  { name: "Solflare", color: "#fc7227" },
-  { name: "Backpack", color: "#e33e3f" },
+  { name: "Robinhood Wallet", color: "#00c805" },
+  { name: "MetaMask", color: "#f6851b" },
+  { name: "Rabby", color: "#8697ff" },
+  { name: "Coinbase Wallet", color: "#1652f0" },
 ];
 
 export function WalletModal() {
@@ -33,7 +34,7 @@ export function WalletModal() {
     <div className="modal-bg" onClick={w.closeModal} role="dialog" aria-modal="true" aria-label="Connect a wallet">
       <div className="card modal" onClick={(e) => e.stopPropagation()}>
         <h3>Connect a wallet</h3>
-        <p className="muted" style={{ fontSize: 13 }}>Pick a Solana wallet to trade, launch, or claim fees.</p>
+        <p className="muted" style={{ fontSize: 13 }}>Pick a wallet on Robinhood Chain to trade, launch, or claim fees.</p>
         <div className="wallet-list">
           {WALLETS.map((x) => (
             <button key={x.name} onClick={() => w.connect(x.name)}>
@@ -43,7 +44,7 @@ export function WalletModal() {
           ))}
         </div>
         <p className="dim" style={{ fontSize: 12, marginTop: 14 }}>
-          Demo mode: this connects a mock wallet. Wire up the Solana wallet adapter to go live.
+          Demo mode: this connects a mock wallet. Wire up wagmi or viem with the Robinhood Chain RPC to go live.
         </p>
       </div>
     </div>

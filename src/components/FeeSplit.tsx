@@ -7,17 +7,17 @@ export function FeeSplit({ personLabel = "The person on the coin" }: { personLab
   return (
     <div className="split">
       <div className="split-bar" role="img" aria-label={`Fee split: ${pct(person)} to the person, ${pct(launcher)} to the launcher, ${pct(protocol)} to the protocol`}>
-        <div style={{ flex: person, background: "var(--gold)" }}>{pct(person)}</div>
-        <div style={{ flex: launcher, background: "var(--green)" }}>{pct(launcher)}</div>
+        <div style={{ flex: person, background: "var(--accent)" }}>{pct(person)}</div>
+        <div style={{ flex: launcher, background: "var(--blue)" }}>{pct(launcher)}</div>
         <div style={{ flex: protocol, background: "#8b8b95" }}>{pct(protocol)}</div>
       </div>
       <div className="split-legend">
         <div className="item">
-          <i className="dot" style={{ background: "var(--gold)" }} />
-          <div><b>{personLabel}</b><span>Paid out in SOL. Held in escrow until they verify their X account and claim.</span></div>
+          <i className="dot" style={{ background: "var(--accent)" }} />
+          <div><b>{personLabel}</b><span>Paid out in ETH. Held in escrow until they verify their X account and claim.</span></div>
         </div>
         <div className="item">
-          <i className="dot" style={{ background: "var(--green)" }} />
+          <i className="dot" style={{ background: "var(--blue)" }} />
           <div><b>Whoever launched it</b><span>A reward for finding and putting someone on. Claimable any time.</span></div>
         </div>
         <div className="item">

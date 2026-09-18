@@ -1,14 +1,14 @@
-import { SOL_USD } from "../config";
+import { ETH_USD } from "../config";
 
-export function fmtSol(n: number, digits = 2): string {
-  if (n === 0) return "0 SOL";
-  if (Math.abs(n) < 0.001) return `${n.toExponential(2)} SOL`;
-  if (Math.abs(n) < 1) return `${n.toFixed(4)} SOL`;
-  return `${n.toLocaleString(undefined, { maximumFractionDigits: digits })} SOL`;
+export function fmtEth(n: number, digits = 2): string {
+  if (n === 0) return "0 ETH";
+  if (Math.abs(n) < 0.001) return `${n.toExponential(2)} ETH`;
+  if (Math.abs(n) < 1) return `${n.toFixed(4)} ETH`;
+  return `${n.toLocaleString(undefined, { maximumFractionDigits: digits })} ETH`;
 }
 
-export function fmtUsd(sol: number): string {
-  const usd = sol * SOL_USD;
+export function fmtUsd(eth: number): string {
+  const usd = eth * ETH_USD;
   if (usd >= 1_000_000) return `$${(usd / 1_000_000).toFixed(2)}M`;
   if (usd >= 1_000) return `$${(usd / 1_000).toFixed(1)}K`;
   return `$${usd.toFixed(2)}`;
@@ -38,7 +38,7 @@ export function timeAgo(ts: number, now = Date.now()): string {
 }
 
 export function shortAddr(a: string): string {
-  return a.length <= 10 ? a : `${a.slice(0, 4)}…${a.slice(-4)}`;
+  return a.length <= 10 ? a : `${a.slice(0, 6)}…${a.slice(-4)}`;
 }
 
 export function normalizeHandle(h: string): string {

@@ -2,14 +2,14 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 import { fakeAddress } from "../lib/seed";
 
 /**
- * Mock wallet state. Replace with @solana/wallet-adapter-react once the
- * on-chain program is ready — the component API is intentionally similar.
+ * Mock wallet state. Replace with wagmi (useAccount/useConnect) pointed at
+ * Robinhood Chain once the contracts are ready. The component API is intentionally similar.
  */
 type WalletState = {
   connected: boolean;
   address: string | null;
   walletName: string | null;
-  balanceSol: number;
+  balanceEth: number;
   connect: (name: string) => void;
   disconnect: () => void;
   openModal: () => void;
@@ -34,7 +34,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       connected: walletName !== null,
       address: walletName ? fakeAddress(`user-${walletName}`) : null,
       walletName,
-      balanceSol: walletName ? 12.48 : 0,
+      balanceEth: walletName ? 2.48 : 0,
       connect,
       disconnect,
       openModal: () => setModalOpen(true),

@@ -1,28 +1,28 @@
 import { CURVE, FEES } from "../config";
 
-/** Tokens still on the curve for a given amount of real SOL raised. */
-export function tokensRemaining(solRaised: number): number {
-  const k = CURVE.virtualSol * CURVE.virtualTokens;
-  return k / (CURVE.virtualSol + solRaised);
+/** Tokens still on the curve for a given amount of real ETH raised. */
+export function tokensRemaining(ethRaised: number): number {
+  const k = CURVE.virtualEth * CURVE.virtualTokens;
+  return k / (CURVE.virtualEth + ethRaised);
 }
 
-/** Tokens already sold for a given amount of real SOL raised. */
-export function tokensSold(solRaised: number): number {
-  return CURVE.virtualTokens - tokensRemaining(solRaised);
+/** Tokens already sold for a given amount of real ETH raised. */
+export function tokensSold(ethRaised: number): number {
+  return CURVE.virtualTokens - tokensRemaining(ethRaised);
 }
 
-/** Spot price in SOL per token. */
-export function spotPrice(solRaised: number): number {
-  const vSol = CURVE.virtualSol + solRaised;
-  return vSol / tokensRemaining(solRaised);
+/** Spot price in ETH per token. */
+export function spotPrice(ethRaised: number): number {
+  const vEth = CURVE.virtualEth + ethRaised;
+  return vEth / tokensRemaining(ethRaised);
 }
 
-export function marketCapSol(solRaised: number): number {
-  return spotPrice(solRaised) * CURVE.totalSupply;
+export function marketCapEth(ethRaised: number): number {
+  return spotPrice(ethRaised) * CURVE.totalSupply;
 }
 
-export function graduationProgress(solRaised: number): number {
-  return Math.min(1, solRaised / CURVE.graduationSol);
+export function graduationProgress(ethRaised: number): number {
+  return Math.min(1, ethRaised / CURVE.graduationEth);
 }
 
 export type Quote = {
@@ -43,18 +43,18 @@ export function splitFee(fee: number) {
   };
 }
 
-/** Quote a buy: SOL in, tokens out. Fee is taken from the SOL before it hits the curve. */
-export function quoteBuy(solIn: number, solRaised: number): Quote {
-  const fee = solIn * (FEES.tradeFeeBps / 10_000);
-  const net = solIn - fee;
-  const vSol = CURVE.virtualSol + solRaised;
-  const vTok = tokensRemaining(solRaised);
-  const k = vSol * vTok;
-  const tokensOut = vTok - k / (vSol + net);
-  const before = spotPrice(solRaised);
-  const after = spotPrice(solRaised + net);
+/** Quote a buy: ETH in, tokens out. Fee is taken from the ETH before it hits the curve. */
+export function quoteBuy(ethIn: number, ethRaised: number): Quote {
+  const fee = ethIn * (FEES.tradeFeeBps / 10_000);
+  const net = ethIn - fee;
+  const vEth = CURVE.virtualEth + ethRaised;
+  const vTok = tokensRemaining(ethRaised);
+  const k = vEth * vTok;
+  const tokensOut = vTok - k / (vEth + net);
+  const before = spotPrice(ethRaised);
+  const after = spotPrice(ethRaised + net);
   return {
-    input: solIn,
+    input: ethIn,
     fee,
     ...splitFee(fee),
     output: tokensOut,
@@ -62,15 +62,15 @@ export function quoteBuy(solIn: number, solRaised: number): Quote {
   };
 }
 
-/** Quote a sell: tokens in, SOL out. Fee is taken from the SOL that comes out. */
-export function quoteSell(tokensIn: number, solRaised: number): Quote {
-  const vSol = CURVE.virtualSol + solRaised;
-  const vTok = tokensRemaining(solRaised);
-  const k = vSol * vTok;
-  const gross = vSol - k / (vTok + tokensIn);
+/** Quote a sell: tokens in, ETH out. Fee is taken from the ETH that comes out. */
+export function quoteSell(tokensIn: number, ethRaised: number): Quote {
+  const vEth = CURVE.virtualEth + ethRaised;
+  const vTok = tokensRemaining(ethRaised);
+  const k = vEth * vTok;
+  const gross = vEth - k / (vTok + tokensIn);
   const fee = gross * (FEES.tradeFeeBps / 10_000);
-  const before = spotPrice(solRaised);
-  const after = spotPrice(Math.max(0, solRaised - gross));
+  const before = spotPrice(ethRaised);
+  const after = spotPrice(Math.max(0, ethRaised - gross));
   return {
     input: tokensIn,
     fee,

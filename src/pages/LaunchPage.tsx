@@ -6,9 +6,9 @@ import { FeeSplit } from "../components/FeeSplit";
 import { WalletButton } from "../components/WalletButton";
 import { XIcon } from "../components/XIcon";
 import { useWallet } from "../context/WalletContext";
-import { CURVE, FEES } from "../config";
+import { CHAIN, CURVE, FEES } from "../config";
 import { quoteBuy } from "../lib/curve";
-import { fmtCompact, fmtSol, normalizeHandle } from "../lib/format";
+import { fmtCompact, fmtEth, normalizeHandle } from "../lib/format";
 
 type Form = {
   personName: string;
@@ -43,7 +43,7 @@ export function LaunchPage() {
     if (!f.ticker.trim()) e.ticker = "Pick a ticker.";
     else if (!/^[A-Z0-9]{2,10}$/.test(f.ticker)) e.ticker = "2–10 letters or numbers, all caps.";
     if (f.description.trim().length < 20) e.description = "Say a little more (20+ characters).";
-    if (f.initialBuy && (Number(f.initialBuy) < 0 || Number.isNaN(Number(f.initialBuy)))) e.initialBuy = "Enter a number of SOL.";
+    if (f.initialBuy && (Number(f.initialBuy) < 0 || Number.isNaN(Number(f.initialBuy)))) e.initialBuy = "Enter a number of ETH.";
     if (!f.consent) e.consent = "You need to confirm this.";
     return e;
   }, [f, handle]);
@@ -96,7 +96,7 @@ export function LaunchPage() {
     <div className="container" style={{ paddingBottom: 40 }}>
       <div className="page-head">
         <h1>Launch a coin</h1>
-        <p>Put someone on. Costs ~0.02 SOL in network fees. No code, no presale, no team allocation.</p>
+        <p>Put someone on. Deploys through {CHAIN.launchpad} on Robinhood Chain for a few cents in gas. No code, no presale, no team allocation.</p>
       </div>
 
       <div className="launch-layout">
@@ -163,16 +163,16 @@ export function LaunchPage() {
             <label htmlFor="initialBuy">Buy in at launch</label>
             <div className="amount">
               <input id="initialBuy" className={cls("initialBuy")} inputMode="decimal" value={f.initialBuy} onChange={(e) => set("initialBuy", e.target.value.replace(/[^\d.]/g, ""))} placeholder="0.0" style={{ fontFamily: "var(--mono)" }} />
-              <span className="unit">SOL</span>
+              <span className="unit">ETH</span>
             </div>
             {err("initialBuy") ?? (
               <span className="hint">
-                {initialQuote ? `You'd get ~${fmtCompact(initialQuote.output)} $${f.ticker || "TOKENS"} and ${fmtSol(initialQuote.feeToPerson, 4)} goes to ${handle || "them"} on trade one.` : "Snipers can't front-run you if you're the first buyer."}
+                {initialQuote ? `You'd get ~${fmtCompact(initialQuote.output)} $${f.ticker || "TOKENS"} and ${fmtEth(initialQuote.feeToPerson, 4)} goes to ${handle || "them"} on trade one.` : "Snipers can't front-run you if you're the first buyer."}
               </span>
             )}
           </div>
 
-          <label className="notice gold" style={{ cursor: "pointer" }}>
+          <label className="notice accent" style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={f.consent} onChange={(e) => set("consent", e.target.checked)} style={{ marginTop: 3 }} />
             <span>
               I understand that only <b>@{handle || "this handle"}</b> can ever claim the person share of the fees, that it stays in escrow until they do, and that I can't redirect it. I'm not impersonating anyone.
@@ -217,7 +217,7 @@ export function LaunchPage() {
             <span className="panel-title">What you get</span>
             <div className="item"><ShieldCheck size={16} className="green" /> <span>{fmtCompact(CURVE.totalSupply)} supply, all on the curve. No team tokens.</span></div>
             <div className="item"><ShieldCheck size={16} className="green" /> <span>{Math.round(FEES.split.launcher * 100)}% of every fee to your wallet as the launcher, forever.</span></div>
-            <div className="item"><ShieldCheck size={16} className="green" /> <span>Liquidity locked and burned at graduation ({CURVE.graduationSol} SOL).</span></div>
+            <div className="item"><ShieldCheck size={16} className="green" /> <span>Liquidity locked and burned at graduation ({CURVE.graduationEth} ETH).</span></div>
             <div className="item"><ShieldCheck size={16} className="green" /> <span>Mint and freeze authority revoked at launch.</span></div>
           </div>
         </div>
